@@ -1,4 +1,7 @@
 #include "monty.h"
+#include "stdio.h"
+#include "stdlib.h"
+
 
 cmdline_t cmd_args;
 
@@ -31,6 +34,5 @@ int main(int argc, char **argv)
 	cmd_args->args = argv;
 	cmd_args->num_conv = argc;
 	cmd_args->content = NULL;
-	cmd_args->file = NULL;
-	
+	cmd_args->file = NULL;	
 }
