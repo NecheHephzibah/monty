@@ -6,7 +6,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
-
+#include <fcntl.h>
 
 
 
@@ -41,3 +41,28 @@ typedef struct instruction_s
         char *opcode;
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+
+/**
+  * struct commandLine_s - Represents info from the command line.
+  * @args: array of command line arguments.
+  * @contents: contents related to the process.
+  * @num_conv: number of command line arguments.
+  * @file: file associated with the process (monty file).
+  *
+  * Description: Global variable for ease of access, representing the
+  * the command line input in stack or queue format.
+  */
+
+typedef struct commandLine_s
+{
+	char *args;
+	int num_conv;
+	char *contents;
+	FILE *file;
+} cmdline_t;
+
+extern cmdline_t cmd_args;
+
+void _push(stack_t **head, unsigned int line_number);
+void _pall(stack_t **head, unsigned int line_number);
