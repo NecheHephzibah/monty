@@ -1,4 +1,7 @@
 #include "monty.h"
+#include "stdio.h"
+#include "stdlib.h"
+
 
 cmdline_t cmd_args = {NULL, NULL, NULL, 0};
 
