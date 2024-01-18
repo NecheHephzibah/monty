@@ -62,6 +62,9 @@ typedef struct commandLine_s
 extern cmdline_t cmd_args;
 
 void _push(stack_t **head, unsigned int line_number);
+void _addStack(stack_t **head, int num);
+void _addQueue(stack_t **head, int num);
+
 void _pall(stack_t **head, unsigned int line_number);
 
 void _pint(stack_t **stack, unsigned int number);
@@ -69,10 +72,12 @@ int get_top_value(stack_t **stack, unsigned int number);
 void swap_top_two(stack_t **head, unsigned int line_number);
 
 
-void read_file(FILE *file, void **stack);
+void read_file(FILE *file, stack_t **stack);
 instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr);
-void exec_opcode(char *content, stack_t **stack,
+int exec_opcode(char *content, stack_t **stack,
 		unsigned int line_number, FILE *file);
-void free_stack(stack_t **stack);
+void free_stack(stack_t *stack);
+
+void _nop(stack_t **stack, unsigned int line_number);
 #endif
 

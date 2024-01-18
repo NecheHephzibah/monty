@@ -1,16 +1,14 @@
 #include "monty.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
+cmdline_t cmd_args = {NULL, 0, NULL, 0};
 
-cmdline_t cmd_args = {NULL, NULL, NULL, 0};
-
-
-void read_file(FILE *file, void **stack);
+void read_file(FILE *file, stack_t **stack);
 instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr);
-void exec_opcode(char *content, stack_t **stack,
+int exec_opcode(char *content, stack_t **stack,
 		unsigned int line_number, FILE *file);
-void free_stack(stack_t **stack);
+void free_stack(stack_t *stack);
 
 /**
   * main - main function tat calls the other functions,
@@ -24,7 +22,7 @@ void free_stack(stack_t **stack);
 int main(int argc, char **argv)
 {
 	FILE *file;
-	void *stack = NULL;
+	stack_t *stack = NULL;
 
 	if (argc != 2)
 	{
@@ -55,18 +53,19 @@ int main(int argc, char **argv)
   */
 
 
-void read_file(FILE *file, void **stack)
+void read_file(FILE *file, stack_t **stack)
 {
-	char *contents = NULL;
+	char contents[1024];
 	unsigned int count = 0;
-	size_t size = 0;
-	ssize_t read_line;
 
-	for (count = 1, (read_line =
-				getline(&contents, &size, file)) > 0; count++)
+	while (fgets(contents, sizeof(contents), file) != NULL)
 	{
+		count++;
+
 		exec_opcode(contents, stack, count, file);
-		free(contents);
+
+		if (*stack == NULL)
+			break;
 	}
 }
 
@@ -86,9 +85,9 @@ instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr)
 {
 	int i = 0;
 
-	while (cmd_arr[i]->opcode != NULL)
+	while (cmd_arr[i].opcode != NULL)
 	{
-		if (strcmp(cmd, cmd_arr[i]->opcode) == 0)
+		if (strcmp(cmd, cmd_arr[i].opcode) == 0)
 		{
 			return (&cmd_arr[i]);
 		}
@@ -107,14 +106,14 @@ instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr)
   * Return: void
   */
 
-void exec_opcode(char *contents, stack_t **stack,
+int exec_opcode(char *contents, stack_t **stack,
 		unsigned int line_number, FILE *file)
 {
 	instruction_t cmd_arr[] = {
 		{"push", _push}, {"pall", _pall}, {"pint", _pint},
 		{"nop", _nop}, {"swap", swap_top_two}, {NULL, NULL}
 	};
-	
+
 	char *command;
 	instruction_t *cmd_function;
 
@@ -123,7 +122,7 @@ void exec_opcode(char *contents, stack_t **stack,
 	if (command && command[0] == '#')
 		return (0);
 
-	cmd_args->args = strtok(NULL, " \n\t\r");
+	cmd_args.args = strtok(NULL, " \n\t\r");
 	cmd_function = find_opcode(command, cmd_arr);
 	if (cmd_function != NULL)
 	{
@@ -149,7 +148,7 @@ void exec_opcode(char *contents, stack_t **stack,
   * Return: void.
   */
 
-void free_stack(stack_t **stack)
+void free_stack(stack_t *stack)
 {
 	stack_t *current_node;
 	stack_t *next_node;
@@ -157,7 +156,7 @@ void free_stack(stack_t **stack)
 	if (stack == NULL)
 		return;
 
-	current_node = *stack;
+	current_node = stack;
 
 	while (current_node != NULL)
 	{
@@ -166,5 +165,5 @@ void free_stack(stack_t **stack)
 		current_node = next_node;
 	}
 
-	*stack = NULL;
-}
+	stack = NULL;
+}	

@@ -14,32 +14,32 @@ void _push(stack_t **head, unsigned int line_number)
 {
 	int i = 0, neg = 0, num;
 
-	if (cmd_args->args == NULL)
+	if (cmd_args.args == NULL)
 		return;
 
-	if (cmd_args->args[0] == '-')
+	if (cmd_args.args[0] == '-')
 		i++;
-	while (cmd_args->args[i] != '\0' && (cmd_args->args[i] >= '0'
-			&& cmd_args->args[i] <= '9'))
+	while (cmd_args.args[i] != '\0' && (cmd_args.args[i] >= '0'
+			&& cmd_args.args[i] <= '9'))
 	{
 		i++;
 	}
 
-	if (cmd_args->args[i] != '\0')
+	if (cmd_args.args[i] != '\0')
 		neg = 1;
 
 	if (neg)
 	{
 		fprintf(stderr, "L%d: usage: push integer", line_number);
-		free(cmd_args->contents);
-		fclose(cmd_args->file);
-		_free_list(*head);
+		free(cmd_args.contents);
+		fclose(cmd_args.file);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		num = atoi(cmd_args->args);
-		if (cmd_args->num_conv == 0)
+		num = atoi(cmd_args.args);
+		if (cmd_args.num_conv == 0)
 			_addStack(head, num);
 		else
 			_addQueue(head, num);
