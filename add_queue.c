@@ -22,7 +22,7 @@ void _addQueue(stack_t **head, int num)
 	new_node->n = num;
 	new_node->next = NULL;
 
-	if(*head == NULL)
+	if (*head == NULL)
 	{
 		new_node->prev = NULL;
 		*head = new_node;

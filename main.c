@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 	}
 
 	file = fopen(argv[1], "r");
+	cmd_args.file = file;
 	if (!file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
@@ -38,6 +39,7 @@ int main(int argc, char **argv)
 	}
 
 	read_file(file, &stack);
+
 
 	free_stack(stack);
 	fclose(file);
@@ -60,9 +62,11 @@ void read_file(FILE *file, stack_t **stack)
 
 	while (fgets(contents, sizeof(contents), file) != NULL)
 	{
+		cmd_args.contents = contents;
 		count++;
 
 		exec_opcode(contents, stack, count, file);
+
 
 		if (*stack == NULL)
 			break;
