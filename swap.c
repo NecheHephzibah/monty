@@ -16,7 +16,7 @@ void swap_top_two(stack_t **head, unsigned int line_number)
 		fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
 		fclose(cmd_args.file);
 		free(cmd_args.contents);
-		free_stack(*head);
+		free_stack(head);
 		exit(EXIT_FAILURE);
 	}
 

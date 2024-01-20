@@ -76,7 +76,7 @@ void read_file(FILE *file, stack_t **stack);
 instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr);
 int exec_opcode(char *content, stack_t **stack,
 		unsigned int line_number, FILE *file);
-void free_stack(stack_t *stack);
+void free_stack(stack_t **stack);
 
 void _nop(stack_t **stack, unsigned int line_number);
 #endif

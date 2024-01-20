@@ -18,7 +18,7 @@ int get_top_value(stack_t **stack, unsigned int number)
 		fprintf(stderr, "L%u: can't pint, stack empty\n", number);
 		free(cmd_args.contents);
 		fclose(cmd_args.file);
-		free_stack(*stack);
+		free_stack(stack);
 		exit(EXIT_FAILURE);
 	}
 	else

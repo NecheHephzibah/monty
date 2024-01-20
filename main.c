@@ -9,7 +9,7 @@ void read_file(FILE *file, stack_t **stack);
 instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr);
 int exec_opcode(char *content, stack_t **stack,
 		unsigned int line_number, FILE *file);
-void free_stack(stack_t *stack);
+void free_stack(stack_t **stack);
 
 /**
   * main - main function tat calls the other functions,
@@ -44,12 +44,12 @@ int main(int argc, char **argv)
 	if (stack != NULL)
 	{
 		fprintf(stderr, "Error: End of filr , but remaining in stack\n");
-		free_stack(stack);
+		free_stack(&stack);
 		fclose(file);
 		exit(EXIT_FAILURE);
 	}
 
-	free_stack(stack);
+	free_stack(&stack);
 	fclose(file);
 
 	return (0);
@@ -75,7 +75,7 @@ void read_file(FILE *file, stack_t **stack)
 		{
 			fprintf(stderr, "Memory allocation error\n");
 			fclose(file);
-			free_stack(*stack);
+			free_stack(stack);
 			exit(EXIT_FAILURE);
 		}
 		count++;
@@ -91,7 +91,7 @@ void read_file(FILE *file, stack_t **stack)
 	{
 		fprintf(stderr, "Error: End of file, but items remaining in the stack\n");
 		fclose(file);
-		free_stack(*stack);
+		free_stack(stack);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -161,7 +161,7 @@ int exec_opcode(char *contents, stack_t **stack,
 		fprintf(stderr, "L%u: unknown instruction %s\n",
 				line_number, command);
 		fclose(file);
-		free_stack(*stack);
+		free_stack(stack);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -174,15 +174,15 @@ int exec_opcode(char *contents, stack_t **stack,
   * Return: void.
   */
 
-void free_stack(stack_t *stack)
+void free_stack(stack_t **stack)
 {
 	stack_t *current_node;
 	stack_t *next_node;
 
-	if (stack == NULL)
+	if (*stack == NULL)
 		return;
 
-	current_node = stack;
+	current_node = *stack;
 
 	while (current_node != NULL)
 	{
@@ -191,5 +191,5 @@ void free_stack(stack_t *stack)
 		current_node = next_node;
 	}
 
-	stack = NULL;
+	*stack = NULL;
 }
