@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-cmdline_t cmd_args = {NULL, 0, NULL, NULL};
 
 void read_file(FILE *file, stack_t **stack);
 instruction_t *find_opcode(char *cmd, instruction_t *cmd_arr);
