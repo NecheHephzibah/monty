@@ -1,3 +1,5 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include "monty.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +41,13 @@ int main(int argc, char **argv)
 
 	read_file(file, &stack);
 
+	if (stack != NULL)
+	{
+		fprintf(stderr, "Error: End of filr , but remaining in stack\n");
+		free_stack(stack);
+		fclose(file);
+		exit(EXIT_FAILURE);
+	}
 
 	free_stack(stack);
 	fclose(file);
@@ -61,14 +70,29 @@ void read_file(FILE *file, stack_t **stack)
 
 	while (fgets(contents, sizeof(contents), file) != NULL)
 	{
-		cmd_args.contents = contents;
+		cmd_args.contents = strdup(contents);
+		if (cmd_args.contents == NULL)
+		{
+			fprintf(stderr, "Memory allocation error\n");
+			fclose(file);
+			free_stack(*stack);
+			exit(EXIT_FAILURE);
+		}
 		count++;
 
 		exec_opcode(contents, stack, count, file);
 
+		free(cmd_args.contents);
 
 		if (*stack == NULL)
 			break;
+	}
+	if (feof(file) && *stack != NULL)
+	{
+		fprintf(stderr, "Error: End of file, but items remaining in the stack\n");
+		fclose(file);
+		free_stack(*stack);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -137,7 +161,6 @@ int exec_opcode(char *contents, stack_t **stack,
 		fprintf(stderr, "L%u: unknown instruction %s\n",
 				line_number, command);
 		fclose(file);
-		free(contents);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}

@@ -30,7 +30,7 @@ void _push(stack_t **head, unsigned int line_number)
 
 	if (neg)
 	{
-		fprintf(stderr, "L%u: usage: push integer", line_number);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		free(cmd_args.contents);
 		fclose(cmd_args.file);
 		free_stack(*head);
