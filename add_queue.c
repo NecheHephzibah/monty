@@ -1,5 +1,7 @@
 #include "monty.h"
 
+cmdline_t cmd_args;
+
 /**
   * _addQueue - function to add new nodes to the bottom of stack.
   * @head: pointer to pointer of the beginning of the stack.

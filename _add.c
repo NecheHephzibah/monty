@@ -1,5 +1,7 @@
 #include "monty.h"
 
+cmdline_t cmd_args;
+
 /**
   * _add - function to removes the node at the top of the stack and frees it.
   * @stack: pointer to the pointer of the head of a node/list.

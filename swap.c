@@ -1,5 +1,7 @@
 #include "monty.h"
 
+cmdline_t cmd_args;
+
 /**
  * swap_top_two - function that swaps the top two elements of the stack.
  * @head: Pointer to the stack's head

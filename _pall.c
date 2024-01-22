@@ -1,5 +1,7 @@
 #include "monty.h"
 
+
+
 /**
   * _pall - function that prints all the elements(nodes)
   * in a stack or queue.

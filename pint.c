@@ -1,5 +1,7 @@
 #include "monty.h"
 
+cmdline_t cmd_args;
+
 void _pint(stack_t **stack, unsigned int number);
 
 

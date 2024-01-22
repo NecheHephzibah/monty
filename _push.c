@@ -1,5 +1,8 @@
 #include "monty.h"
 
+
+cmdline_t cmd_args;
+
 /**
   * _push - function that pushes a new element(node) to the top of
   * the stack.

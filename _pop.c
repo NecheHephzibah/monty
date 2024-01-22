@@ -1,5 +1,6 @@
 #include "monty.h"
 
+cmdline_t cmd_args;
 
 /**
   * _pop - function to removes the node at the top of the stack and frees it.

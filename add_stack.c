@@ -1,6 +1,8 @@
 #include "monty.h"
 
 
+cmdline_t cmd_args;
+
 /**
   * _addStack - function to add new nodes to stack pile.
   * @head: pointer to pointer of the beginning of the stack.
